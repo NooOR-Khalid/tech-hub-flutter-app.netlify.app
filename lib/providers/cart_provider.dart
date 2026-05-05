@@ -18,34 +18,45 @@ class CartProvider with ChangeNotifier {
   final Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items => {..._items};
-  int get itemCount => _items.length;
+
+  // التعديل: حساب إجمالي عدد القطع (مثلاً 2 لابتوب + 1 هاتف = 3)
+  int get totalItemsCount {
+    var total = 0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.quantity;
+    });
+    return total;
+  }
+
   double get totalAmount => _items.values.fold(
     0.0,
     (sum, item) => sum + (item.price * item.quantity),
   );
 
   void addItem(String productId, double price, String title, String imageUrl) {
-    _items.containsKey(productId)
-        ? _items.update(
-            productId,
-            (ex) => CartItem(
-              id: ex.id,
-              title: ex.title,
-              price: ex.price,
-              quantity: ex.quantity + 1,
-              imageUrl: ex.imageUrl,
-            ),
-          )
-        : _items.putIfAbsent(
-            productId,
-            () => CartItem(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              quantity: 1,
-              imageUrl: imageUrl,
-            ),
-          );
+    if (_items.containsKey(productId)) {
+      _items.update(
+        productId,
+        (ex) => CartItem(
+          id: ex.id,
+          title: ex.title,
+          price: ex.price,
+          quantity: ex.quantity + 1,
+          imageUrl: ex.imageUrl,
+        ),
+      );
+    } else {
+      _items.putIfAbsent(
+        productId,
+        () => CartItem(
+          id: DateTime.now().toString(),
+          title: title,
+          price: price,
+          quantity: 1,
+          imageUrl: imageUrl,
+        ),
+      );
+    }
     notifyListeners();
   }
 

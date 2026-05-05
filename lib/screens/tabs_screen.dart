@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // إضافة المكتبة
+import '../providers/cart_provider.dart'; // تأكد من مسار الملف الصحيح
 import './products_overview_screen.dart';
 import './categories_screen.dart';
 import './favorites_screen.dart';
@@ -32,10 +34,20 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Text(_pages[_idx]['title'] as String),
         actions: _idx != 3
             ? [
-                IconButton(
-                  icon: const Icon(Icons.shopping_cart_outlined),
-                  onPressed: () => setState(() => _idx = 3),
+                // استخدام Consumer لمراقبة عدد عناصر السلة
+                Consumer<CartProvider>(
+                  builder: (ctx, cartData, child) => Badge(
+                    label: Text(cartData.totalItemsCount.toString()),
+                    isLabelVisible: cartData.totalItemsCount > 0,
+                    backgroundColor: Colors.cyanAccent, // لون مميز للعداد
+                    textColor: Colors.black,
+                    child: IconButton(
+                      icon: const Icon(Icons.shopping_cart_outlined),
+                      onPressed: () => setState(() => _idx = 3),
+                    ),
+                  ),
                 ),
+                const SizedBox(width: 8),
               ]
             : [],
       ),
@@ -47,25 +59,32 @@ class _TabsScreenState extends State<TabsScreen> {
         selectedItemColor: Colors.cyanAccent,
         currentIndex: _idx,
         type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
+        items: [
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.grid_view_outlined),
             activeIcon: Icon(Icons.grid_view),
             label: 'Categories',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outline),
             activeIcon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            activeIcon: Icon(Icons.shopping_cart),
+            // إضافة عداد أيضاً في القائمة السفلية لجمالية التصميم
+            icon: Consumer<CartProvider>(
+              builder: (ctx, cartData, child) => Badge(
+                label: Text(cartData.totalItemsCount.toString()),
+                isLabelVisible: cartData.totalItemsCount > 0,
+                child: const Icon(Icons.shopping_cart_outlined),
+              ),
+            ),
+            activeIcon: const Icon(Icons.shopping_cart),
             label: 'Cart',
           ),
         ],
