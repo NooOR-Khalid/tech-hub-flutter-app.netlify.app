@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "444727650212",
+    "project_id": "techhub-final-app",
+    "storage_bucket": "techhub-final-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444727650212:android:2981717f4b0890d6314331",
+        "android_client_info": {
+          "package_name": "com.example.my_ecommerce_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfegWq0BomkrbhvEMWgppvWzwiB97aBTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

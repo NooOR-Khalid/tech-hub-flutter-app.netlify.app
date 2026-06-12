@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // إضافة المكتبة
-import '../providers/cart_provider.dart'; // تأكد من مسار الملف الصحيح
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../providers/cart_provider.dart';
+import '../providers/theme_provider.dart'; // تأكدي من استيراد ملف الثيم
 import './products_overview_screen.dart';
 import './categories_screen.dart';
 import './favorites_screen.dart';
@@ -27,29 +29,66 @@ class _TabsScreenState extends State<TabsScreen> {
     super.initState();
   }
 
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              FirebaseAuth.instance.signOut();
+            },
+            child: const Text('Yes', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_idx]['title'] as String),
-        actions: _idx != 3
-            ? [
-                // استخدام Consumer لمراقبة عدد عناصر السلة
-                Consumer<CartProvider>(
-                  builder: (ctx, cartData, child) => Badge(
-                    label: Text(cartData.totalItemsCount.toString()),
-                    isLabelVisible: cartData.totalItemsCount > 0,
-                    backgroundColor: Colors.cyanAccent, // لون مميز للعداد
-                    textColor: Colors.black,
-                    child: IconButton(
-                      icon: const Icon(Icons.shopping_cart_outlined),
-                      onPressed: () => setState(() => _idx = 3),
-                    ),
-                  ),
+        actions: [
+          // إضافة زر الثيم هنا
+          Consumer<ThemeProvider>(
+            builder: (ctx, themeProvider, _) => IconButton(
+              icon: Icon(
+                themeProvider.isDarkMode
+                    ? Icons.wb_sunny
+                    : Icons.nightlight_round,
+              ),
+              onPressed: () => themeProvider.toggleTheme(),
+            ),
+          ),
+          // زر تسجيل الخروج
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () => _showLogoutDialog(context),
+          ),
+          if (_idx != 3)
+            Consumer<CartProvider>(
+              builder: (ctx, cartData, child) => Badge(
+                label: Text(cartData.totalItemsCount.toString()),
+                isLabelVisible: cartData.totalItemsCount > 0,
+                backgroundColor: Colors.cyanAccent,
+                textColor: Colors.black,
+                child: IconButton(
+                  icon: const Icon(Icons.shopping_cart_outlined),
+                  onPressed: () => setState(() => _idx = 3),
                 ),
-                const SizedBox(width: 8),
-              ]
-            : [],
+              ),
+            ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: _pages[_idx]['page'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
@@ -76,7 +115,6 @@ class _TabsScreenState extends State<TabsScreen> {
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
-            // إضافة عداد أيضاً في القائمة السفلية لجمالية التصميم
             icon: Consumer<CartProvider>(
               builder: (ctx, cartData, child) => Badge(
                 label: Text(cartData.totalItemsCount.toString()),

@@ -2,8 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // تحميل البيانات من SQLite فور فتح شاشة السلة
+    Future.microtask(() {
+      Provider.of<CartProvider>(context, listen: false).fetchAndSetCart();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +86,7 @@ class CartScreen extends StatelessWidget {
                     direction: DismissDirection.endToStart,
                     onDismissed: (_) => cart.removeItem(ids[i]),
                     background: Container(
-                      color: Colors.redAccent.withValues(
-                        alpha: 0.1,
-                      ), // تحديث هنا لحل التنبيه
+                      color: Colors.redAccent.withValues(alpha: 0.1),
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
                       child: const Icon(
