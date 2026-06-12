@@ -1,16 +1,21 @@
-# my_ecommerce_app
+يعد هذا المشروع منصة متكاملة لتسوق المنتجات التقنية والإلكترونيات، صُمم ليوفر تجربة مستخدم سلسة ومرنة. يعالج التطبيق مشكلة البحث التقليدي عن الأجهزة عبر توفير متجر إلكتروني يتيح للمستخدمين استعراض المنتجات وتصنيفها بسهولة، مع إمكانية إضافة المفضلة وإدارة سلة المشتريات بشكل فوري.
 
-A new Flutter project.
+يوفر النظام واجهة مستخدم متجاوبة تدعم الوضع الليلي والنهاري، مما يعزز من راحة العين أثناء التصفح. يعتمد التطبيق على تقنيات حديثة لضمان مزامنة البيانات، حيث يتيح للمستخدمين تصفح التفاصيل الكاملة لكل منتج قبل اتخاذ قرار الشراء. يهدف هذا الحل إلى تحسين تجربة التسوق الرقمي وتوفير بيئة موثوقة وعصرية لاقتناء أحدث التقنيات.
 
-## Getting Started
+##المميزات الرئيسية
+تصفح ذكي: عرض للمنتجات التقنية مع تفاصيل دقيقة لكل جهاز.
 
-This project is a starting point for a Flutter application.
+إدارة السلة: إضافة وحذف المنتجات بسهولة مع تحديث فوري للمشتريات.
 
-A few resources to get you started if this is your first Flutter project:
+قائمة المفضلة: إمكانية حفظ المنتجات المفضلة للرجوع إليها لاحقاً.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+تجربة بصرية مريحة: دعم كامل للوضع الليلي والنهاري (Dark & Light Mode).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+تصميم متجاوب: واجهة تعمل بكفاءة على مختلف أحجام الشاشات (موبايل وويب).
+
+##التقنيات المستخدمة
+Flutter: لتطوير واجهات مستخدم احترافية ومتعددة المنصات.
+
+Provider: لإدارة حالة التطبيق وضمان سلاسة البيانات.
+
+Firebase: لتخزين البيانات وإدارة عمليات المصادقة بشكل سحابي وآمن.
